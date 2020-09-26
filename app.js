@@ -7,11 +7,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var square = require('./routes/square').default;
-
+var encryption = require('./routes/encryption');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+
+
+
+
+
+
+
 var app = express();
+var router = express.Router()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,8 +33,31 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+encryption=function(req,res){
+  var input = req.body['input'];
+  let result = JSON.stringify(parseInt(input) * parseInt(input));
+  console.log("My result--> %s", result);
+  res.send(result);
+
+};
 app.use('/', index);
-app.use('/square', square)
+app.use('/square', square);
+app.use('/encryption', encryption);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // catch 404 and forward to error handler`
 app.use(function (req, res, next) {
